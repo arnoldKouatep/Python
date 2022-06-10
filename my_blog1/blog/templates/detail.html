@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="text-center mt-2">Detail article</h1>
+           
+
+            {% if article.image == "http://default" %}
+                
+                <img class="card-img-top" src="{% static 'img/logo.png' %}" alt="Card image cap" style="width: 500px;">
+                
+            {% else %}
+                
+                <img class="card-img-top" src="{{article.image.url}}" alt="Card image cap" style="width: 500px;">
+                
+            {% endif %}
+            <h2>{{article.title}}</h2>
+            <p>{{article.desc}}</p> 
+        </div>  
+        <div class = "col-md-4">
+            <h3 class="mt-2">Les articles en relations</h3 class="mt-2">
+                <div class= "row">
+                    {% for art in aer %}
+                        {% if art.id != article.id%}
+                        <div class="col-md-7 mb-1">
+                            {% if art.image != "http://default"%}
+                                <a href="{% url 'detail' article.id %}">
+                                    <img src="{{art.image.url}}" alt="" style="width: 180px;">
+                                </a>
+                            {% else %}
+                                <a href="{% url 'detail' article.id %}">
+                                    <img class="card-img-top" src="{% static 'img/logo.png' %}" alt="Card image cap" style="width: 180px;">
+                                </a>
+                            {% endif %}
+                        </div>
+                        <div class="col-5">
+                            <h5>{{art.title}}</h5>
+                            {{art.desc|truncatewords:5}}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                
+        </div>  
+    </div>
+</div>
+{% endblock  %}
